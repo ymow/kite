@@ -1,29 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>CoffeeStormGlass</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Revisit AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
-  <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
-  <%= stylesheet_link_tag "application" %>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/4.0.0-beta1/js/adminlte.min.js" integrity="sha512-cdFutZXfLv4+h80CCqQN/3CRQ1hqNphfwiKK9aqwfjv0GNQBaDuKK/jGJ5RCeFwreNbejybsTKU/dzqDTDxNJw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/4.0.0-beta1/css/adminlte.min.css" integrity="sha512-V+5Ib3dKVbUgK+gh4U1MKPhCPAnsx7NEtbQbh7iJNS4C4vlqQ2LJ2ss2lQj9kFn16g2RTsBwE28r8GsHVlMCXw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css" integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q=" crossorigin="anonymous"><!--end::Fonts--><!--begin::Third Party Plugin(OverlayScrollbars)-->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.3.0/styles/overlayscrollbars.min.css" integrity="sha256-dSokZseQNT08wYEWiz5iLI8QPlKxG+TswNRD8k35cpg=" crossorigin="anonymous"><!--end::Third Party Plugin(OverlayScrollbars)--><!--begin::Third Party Plugin(Bootstrap Icons)-->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.min.css" integrity="sha256-Qsx5lrStHZyR9REqhUF8iQt73X06c8LGIUPzpOhwRrI=" crossorigin="anonymous"><!--end::Third Party Plugin(Bootstrap Icons)--><!--begin::Required Plugin(AdminLTE)-->
-
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-..." crossorigin="anonymous">
 </head>
-
-<body class="layout-fixed sidebar-expand-lg bg-body-tertiary"> <!--begin::App Wrapper-->
-    <div class="app-wrapper"> <!--begin::Header-->
-        <%= render 'layouts/header'%>
-        <%= render 'layouts/sidebar'%>
-        <main class="app-main"> <!--begin::App Content Header-->
-          <%= yield %>
-        </main> <!--end::App Main--> <!--begin::Footer-->
-        <%= render 'layouts/footer'%>
-    </div> <!--end::App Wrapper--> <!--begin::Script--> <!--begin::Third Party Plugin(OverlayScrollbars)-->
-</body><!--end::Body-->
-
+<body>
+  <%= render 'layouts/navbar' %>
+  <main class="container mt-5">
+    <%= yield %>
+  </main>
+  <%= render 'layouts/footer' %>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
+</body>
 </html>
