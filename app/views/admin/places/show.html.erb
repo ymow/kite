@@ -1,0 +1,38 @@
+<div class="card m-8">
+  <div class="card-header">
+    <h3 class="card-title"><%= @place.name %></h3>
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body">
+    <h1 class="mb-3"><%= @place.name %></h1>
+
+    <p>
+      <strong>Address:</strong>
+      <%= @place.address %>
+    </p>
+
+    <p>
+      <strong>Category:</strong>
+      <%= @place.category %>
+    </p>
+
+    <p>
+      <strong>Rating:</strong>
+      <%= @place.rating %>
+    </p>
+
+    <p>
+      <strong>Website:</strong>
+      <%= link_to @place.website, @place.website, target: '_blank', data: { bs_toggle: "tooltip", bs_title: "Visit the official website" } %>
+    </p>
+
+    <p>
+      <strong>Description:</strong>
+      <%= @place.description %>
+    </p>
+
+    <%= link_to 'Edit', edit_admin_place_path(@place), class: 'btn btn-warning' %>
+    <%= link_to 'Back to Places', admin_places_path, class: 'btn btn-secondary' %>
+  </div>
+  <!-- /.card-body -->
+</div>

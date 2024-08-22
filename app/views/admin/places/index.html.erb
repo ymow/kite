@@ -1,0 +1,41 @@
+<div class="card mb-4 m-8">
+  <div class="card-header">
+    <h3 class="card-title">Places List</h3>
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body p-0">
+    <%= link_to 'New Place', new_admin_place_path, class: 'btn btn-primary m-3' %>
+
+    <table class="table table-sm">
+      <thead>
+      <tr>
+        <th style="width: 10px">#</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Category</th>
+        <th>Rating Points</th>
+        <th style="width: 120px">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @places.each_with_index do |place, index| %>
+        <tr class="align-middle">
+          <td><%= index + 1 %>.</td>
+          <td><%= place.name %></td>
+          <td><%= place.address %></td>
+          <td><%= place.category %></td>
+          <td>
+            <span class="badge <%= badge_class(place.rating) %>"><%= place.rating * 20 %></span>
+          </td>
+          <td>
+            <%= link_to 'Show', admin_place_path(place), class: 'btn btn-info btn-sm' %>
+            <%= link_to 'Edit', edit_admin_place_path(place), class: 'btn btn-warning btn-sm' %>
+            <%= link_to 'Delete', admin_place_path(place), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' %>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+  <!-- /.card-body -->
+</div>
