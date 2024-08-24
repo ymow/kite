@@ -4,4 +4,114 @@
   <hr class="my-4">
   <p>Explore our services and find out how we can help you leverage the power of AI.</p>
   <a class="btn btn-primary btn-lg" href="<%= services_path %>" role="button">Learn more</a>
+
+  <div class="card mb-4">
+    <div class="card-header">
+      <h3 class="card-title">Our Locations</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+      <!-- Google Maps Integration -->
+      <div id="map" style="height: 400px; width: 100%;"></div>
+
+      <%= link_to 'Back to Home', root_path, class: 'btn btn-secondary mt-4' %>
+    </div>
+    <!-- /.card-body -->
+  </div>
 </div>
+
+<!-- Google Maps API Script -->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8B4nPUVvNo9rfOc0lv0JRvLMeuxgr2W4&callback=initMap&v=beta&libraries=maps,marker"></script>
+
+<script>
+    let currentInfoWindow = null; // Track the currently open InfoWindow
+
+    async function initMap() {
+        // Request needed libraries.
+        const { Map } = await google.maps.importLibrary("maps");
+        const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
+
+        const map = new Map(document.getElementById("map"), {
+            zoom: 14,
+            center: { lat: 25.033964, lng: 121.564468 }, // 台北101的坐标
+            mapId: "DEMO_MAP_ID",
+        });
+
+        const places = [
+            <% @places.each do |place| %>
+            {
+                name: "<%= place.name %>",
+                address: "<%= place.address %>",
+                rating: "<%= place.rating %>",
+                position: { lat: <%= place.latitude %>, lng: <%= place.longitude %> }
+            },
+            <% end %>
+        ];
+
+        for (const place of places) {
+            const marker = new AdvancedMarkerElement({
+                map,
+                position: place.position,
+                title: place.name,
+            });
+
+            const infoWindowContent = buildContent(place);
+
+            const infoWindow = new google.maps.InfoWindow({
+                content: infoWindowContent
+            });
+
+            marker.addListener('gmp-click', () => {
+                if (currentInfoWindow) {
+                    currentInfoWindow.close(); // Close the previous InfoWindow
+                }
+                infoWindow.open(map, marker); // Open the new InfoWindow
+                currentInfoWindow = infoWindow; // Store the current InfoWindow
+            });
+        }
+    }
+
+    function buildContent(place) {
+        const content = document.createElement("div");
+
+        content.classList.add("property");
+        content.innerHTML = `
+      <div class="card shadow-sm border-0 bg-blur">
+        <div class="card-body p-3">
+          <h5 class="card-title fw-bold mb-1 text-primary">${place.name}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">${place.address}</h6>
+          <p class="card-text mb-0">
+            <span class="fw-semibold">Rating:</span>
+            <span class="badge bg-success">${place.rating}</span>
+          </p>
+        </div>
+      </div>
+    `;
+        return content;
+    }
+
+    initMap();
+</script>
+
+<style>
+    #map {
+        height: 400px;
+        width: 100%;
+    }
+
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .property {
+        /* Custom styles for the property marker content */
+    }
+
+    .bg-blur {
+        backdrop-filter: blur(10px);
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 8px;
+    }
+</style>
