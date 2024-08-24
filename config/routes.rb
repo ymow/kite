@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
-  root "places#index"
-  get "about", to: "places#about"
-  get "services", to: "places#services"
-  get "pricing", to: "places#pricing"
-  get "roadmap", to: "places#roadmap"
-  get "contact", to: "places#contact"
-  get "blog", to: "places#blog"
+  root "pages#index"
+  get "about", to: "pages#about"
+  get "services", to: "pages#services"
+  get "pricing", to: "pages#pricing"
+  get "roadmap", to: "pages#roadmap"
+  get "contact", to: "pages#contact"
+  get "blog", to: "pages#blog"
 
   namespace :admin do
     resources :places
