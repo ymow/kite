@@ -5,6 +5,7 @@ require 'json'
 class Llama2Service
   TOGETHER_API_URL = "https://api.together.xyz/v1/chat/completions"
   MODEL_NAME = "meta-llama/Llama-2-7b-chat-hf"
+  MAX_TOKENS = 512
 
   def initialize(user_message)
     @user_message = user_message
@@ -12,13 +13,39 @@ class Llama2Service
   end
 
   def call
-    response = send_request_to_together_ai
+    relevant_places = fetch_relevant_places(@user_message)
+    formatted_message = format_user_message(@user_message, relevant_places)
+    binding.pry
+    response = send_request_to_together_ai(formatted_message)
     parse_response(response)
   end
 
   private
 
-  def send_request_to_together_ai
+  def fetch_relevant_places(user_message)
+    # Search across name, category, and description columns
+    results = Place.basic_search(name: user_message, category: user_message, description: user_message).order(rating: :desc).limit(10)
+    if results.empty?
+      # Fallback or alternative logic if no results are found
+      Place.order(rating: :desc).limit(10)
+    else
+      results
+    end
+
+    results
+  end
+
+
+  def format_user_message(user_message, places)
+    # Build a user-friendly message incorporating the places
+    places_info = places.map do |place|
+      "#{place.name} located at #{place.address}, rated #{place.rating} stars."
+    end.join("\n")
+
+    "#{user_message}\n\nHere are some relevant places:\n#{places_info}\n"
+  end
+
+  def send_request_to_together_ai(formatted_message)
     uri = URI.parse(TOGETHER_API_URL)
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
@@ -27,28 +54,28 @@ class Llama2Service
     request["Authorization"] = "Bearer #{@api_key}"
     request["Content-Type"] = "application/json"
 
-    request.body = build_request_body.to_json
+    request.body = build_request_body(formatted_message).to_json
 
     response = http.request(request)
     response.body
   end
 
-  def build_request_body
+  def build_request_body(formatted_message)
     {
       model: MODEL_NAME,
       messages: [
         {
           role: "user",
-          content: @user_message
+          content: formatted_message
         }
       ],
-      max_tokens: 512,
+      max_tokens: MAX_TOKENS,
       temperature: 0.7,
       top_p: 0.7,
       top_k: 50,
       repetition_penalty: 1,
-      stop: ["[/INST]","</s>"],
-      stream: false # Set to true if you handle streaming responses differently
+      stop: ["[/INST]", "</s>"],
+      stream: false
     }
   end
 

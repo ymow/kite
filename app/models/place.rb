@@ -1,5 +1,7 @@
 # app/models/place.rb
 class Place < ApplicationRecord
+  extend Textacular
+
   validates :name, :address, :city, :state, :country, :postal_code, presence: true
   validates :latitude, :longitude, numericality: true
   validates :rating, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 5 }, allow_nil: true
