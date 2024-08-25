@@ -19,6 +19,10 @@ gem "jbuilder"
 
 gem 'faker'
 
+gem 'pry'
+
+gem 'textacular'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
