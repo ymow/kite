@@ -23,27 +23,37 @@ class Llama2Service
   private
 
   def fetch_relevant_places(user_message)
-    # Search across name, category, and description columns
-    results = Place.basic_search(name: user_message, category: user_message, description: user_message).order(rating: :desc).limit(10)
+    search_query = user_message.downcase.strip # Normalize the user message
+    results = Place.basic_search(name: search_query).order(rating: :desc).limit(10)
+
     if results.empty?
       # Fallback or alternative logic if no results are found
       Place.order(rating: :desc).limit(10)
     else
       results
     end
-
-    results
   end
+
 
 
   def format_user_message(user_message, places)
     # Build a user-friendly message incorporating the places
     places_info = places.map do |place|
-      "#{place.name} located at #{place.address}, rated #{place.rating} stars."
-    end.join("\n")
+      <<~PLACE_INFO
+      Place: #{place.name}
+      Address: #{place.address}, #{place.city}, #{place.state}, #{place.country}
+      Category: #{place.category}
+      Rating: #{place.rating} stars
+      Description: #{place.description}
+      Phone: #{place.phone_number}
+      Website: #{place.website}
+    PLACE_INFO
+    end.join("\n\n")
 
-    "#{user_message}\n\nHere are some relevant places:\n#{places_info}\n"
+    "#{user_message}\n\nThe following information about relevant places has been retrieved:\n#{places_info}\n\nBased on the above details, where is the place located?"
   end
+
+
 
   def send_request_to_together_ai(formatted_message)
     uri = URI.parse(TOGETHER_API_URL)

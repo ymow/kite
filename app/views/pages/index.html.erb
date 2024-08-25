@@ -12,7 +12,7 @@
           <h4>Chat with LLaMA2</h4>
         </div>
         <div class="card-body d-flex flex-column">
-          <div id="chat-window" class="flex-grow-1 mb-3" style="overflow-y: scroll; border: 1px solid #ddd; padding: 10px;">
+          <div id="chat-window" class="flex-grow-1 mb-3">
             <!-- Chat messages will be appended here dynamically -->
           </div>
           <div class="input-group">
@@ -24,6 +24,7 @@
     </div>
   </div>
 </div>
+
 
 <!-- Google Maps API Script -->
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= Rails.application.credentials.google_map[:api_key] %>&callback=initMap&v=beta&libraries=maps,marker"></script>
@@ -164,7 +165,17 @@
         background-color: rgba(255, 255, 255, 0.8);
         border-radius: 8px;
     }
+    #chat-window {
+        height: 100%;
+        max-height: calc(100vh - 160px); /* Adjust based on your layout */
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        padding: 10px;
+    }
 
+    #chat-container {
+        height: calc(100vh - 60px); /* Adjusting for the height of the navbar or any other headers */
+    }
     body {
         height: 100vh;
         margin: 0;
