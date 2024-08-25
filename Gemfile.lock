@@ -111,7 +111,6 @@ GEM
     erubi (1.13.0)
     faker (3.4.2)
       i18n (>= 1.8.11, < 2)
-    geocoder (1.8.2)
     globalid (1.2.1)
       activesupport (>= 6.1)
     i18n (1.14.5)
@@ -284,7 +283,6 @@ DEPENDENCIES
   debug
   devise
   faker
-  geocoder
   jbuilder
   pg (~> 1.1)
   pry
