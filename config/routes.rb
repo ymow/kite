@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   get "contact", to: "pages#contact"
   get "blog", to: "pages#blog"
 
+  get 'chats', to: 'chats#index'
+  post 'chats/send_message', to: 'chats#send_message'
+
   namespace :admin do
     resources :places
     root to: "dashboards#index"    # Add more admin routes here
